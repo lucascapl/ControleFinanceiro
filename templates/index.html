@@ -14,11 +14,18 @@
         <label for="evento">Evento:</label>
         <input type="text" name="evento" required><br>
 
-        <label for="dia">Dia:</label>
+        <label for="dia">Dia: (dd/mm/yyyy)</label>
         <input type="text" name="dia" required><br>
 
         <label for="pagamento">Pagamento:</label>
-        <input type="text" name="pagamento" required><br>
+        <select name="pagamento" id="opcoesPagamento">
+            <option value="Debito">Débito</option>
+            <option value="Credito">Crédito</option>
+            <option value="Ana">Ana</option>
+            <option value="Gustavo">Gustavo</option>
+            <option value="Gui">Gui</option>
+            <option value="Dinheiro">Dinheiro</option>
+        </select>
 
         <input type="submit" value="Enviar">
     </form>
