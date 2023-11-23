@@ -1,10 +1,14 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
 from util import hash_pass, verify_pass
 import json
 app = Flask(__name__)
+
+@app.route('/')
+def root():
+    return redirect('/main')
 
 @app.route('/main')
 def index():
@@ -13,6 +17,9 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit():
     valor = request.form.get('valor')
+    valorTratado = valor.replace(",", ".")
+    valorTratado = float(valorTratado)
+    valor=valorTratado
     evento = request.form.get('evento')
     pwd = request.form.get('token')
     dia = request.form.get('dia')
