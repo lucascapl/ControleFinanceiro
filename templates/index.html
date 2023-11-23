@@ -4,30 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário</title>
+
+    <link rel="stylesheet" href="/static/styles.css">
+    
 </head>
 <body>
+
+
     <h1>Enviar para "gastos"</h1>
     <form action="/submit" method="post">
-        <label for="valor">Valor:</label>
-        <input type="text" name="valor" required><br>
-
-        <label for="evento">Nome da compra:</label>
-        <input type="text" name="evento" required><br>
-
-        <label for="dia">Dia: (dd/mm/yyyy)</label>
-        <input type="text" name="dia" required><br>
-
-        <label for="pagamento">Pagamento:</label>
-        <select name="pagamento" id="opcoesPagamento">
-            <option value="Debito">Débito</option>
-            <option value="Credito">Crédito</option>
-            <option value="Ana">Ana</option>
-            <option value="Gustavo">Gustavo</option>
-            <option value="Gui">Gui</option>
-            <option value="Dinheiro">Dinheiro</option>
-        </select>
-
+        <div class="formLine">
+            <label for="valor">Valor:</label>
+            <input type="text" name="valor" required><br>
+        </div>
+        <div class="formLine">
+            <label for="evento">Nome da compra:</label>
+            <input type="text" name="evento" required><br>
+        </div>
+        <div class="formLine">
+            <label for="dia">Dia: (dd/mm/yyyy)</label>
+            <input type="text" name="dia" required><br>
+        </div>
+        <div class="formLine">
+            <label for="pagamento">Pagamento:</label>
+            <select name="pagamento" id="opcoesPagamento">
+                <option value="Debito">Débito</option>
+                <option value="Credito">Crédito</option>
+                <option value="Ana">Ana</option>
+                <option value="Gustavo">Gustavo</option>
+                <option value="Gui">Gui</option>
+                <option value="Dinheiro">Dinheiro</option>
+            </select><br>
+        </div>
+        <div class="formLine">
+            <label for="token">Credencial:</label>
+            <input type="text" name="token" required>
+        </div>
         <input type="submit" value="Enviar">
     </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var status = '{{ status }}';
+            console.log(status);
+            
+            if (status === 'success') {
+                alert("Dados enviados com sucesso");
+            } else if (status === 'error') {
+                alert("Dados inválidos! Tente novamente");
+                window.location.href = "\main";
+            }
+        });
+    </script>
 </body>
 </html>
