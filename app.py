@@ -2,17 +2,19 @@ from flask import Flask, render_template, request, redirect
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
-
+from util import hash_pass, verify_pass
+import json
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/main')
 def index():
-    return render_template('index.html')
+    return render_template('index.html', status=None)
 
 @app.route('/submit', methods=['POST'])
 def submit():
     valor = request.form.get('valor')
     evento = request.form.get('evento')
+    pwd = request.form.get('token')
     dia = request.form.get('dia')
     pagamento = request.form.get('pagamento')
     data = datetime.strptime(dia, "%d/%m/%Y").date()
@@ -28,10 +30,16 @@ def submit():
     spreadsheet = client.open('Gastos')
     worksheet = spreadsheet.worksheet('Nov')
 
-    # Append de uma nova linha
-    worksheet.append_row([float(valor), evento, dataString, pagamento])
+    
+    with open('token.json', 'r') as file:
+        pwdAutenticated = json.load(file)
+    encodedPwd = hash_pass(pwdAutenticated['pwd'])
 
-    return redirect('/')
-
+    if verify_pass(pwd, encodedPwd):
+        worksheet.append_row([float(valor), evento, dataString, pagamento])
+        return render_template('index.html', status='success')
+    else:
+        return render_template('index.html', status='error')
+    
 if __name__ == '__main__':
     app.run(debug=True)
