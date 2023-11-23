@@ -18,6 +18,7 @@
     <!-- Bootstrap Datepicker JavaScript  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
 
+    <script src="/static/scriptIndex.js"></script>
 
     <link rel="stylesheet" href="/static/styles.css">
     
@@ -57,22 +58,5 @@
         <input type="submit" value="Enviar">
     </form>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inicialize o Datepicker
-            $('.datepickerElement').datepicker({
-                format: 'dd/mm/yyyy',  // Formato desejado da data
-                autoclose: true
-            });
-            var status = '{{ status }}';
-            console.log(status);
-            if (status === 'success') {
-                alert("Dados enviados com sucesso");
-            } else if (status === 'error') {
-                alert("Dados inválidos! Tente novamente");
-                window.location.href = "\main";
-            }
-        });
-    </script>
 </body>
 </html>
