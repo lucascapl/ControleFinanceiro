@@ -2,9 +2,29 @@ from flask import Flask, render_template, request, redirect, url_for
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
-from util import hash_pass, verify_pass
+from util import hash_pass, verify_pass, serialData
 import json
 app = Flask(__name__)
+
+meses = [
+    {'nome': 'Jan', 'valor': 1},
+    {'nome': 'Fev', 'valor': 2},
+    {'nome': 'Mar', 'valor': 3},
+    {'nome': 'Abr', 'valor': 4},
+    {'nome': 'Mai', 'valor': 5},
+    {'nome': 'Jun', 'valor': 6},
+    {'nome': 'Jul', 'valor': 7},
+    {'nome': 'Ago', 'valor': 8},
+    {'nome': 'Set', 'valor': 9},
+    {'nome': 'Out', 'valor': 10},
+    {'nome': 'Nov', 'valor': 11},
+    {'nome': 'Dez', 'valor': 12}
+]
+mesAtual = datetime.today().month
+for mes in meses:
+    if mes['valor'] == mesAtual:
+        worksheetCorrespondente = mes['nome']
+        break
 
 @app.route('/')
 def root():
@@ -25,7 +45,7 @@ def submit():
     dia = request.form.get('dia')
     pagamento = request.form.get('pagamento')
     data = datetime.strptime(dia, "%d/%m/%Y").date()
-    dataString = data.strftime("%d/%m/%Y")
+    dataSerial = serialData(data)
 
     # Configuração do google sheets
     scope = ["https://spreadsheets.google.com/feeds", 'https://www.googleapis.com/auth/spreadsheets',
@@ -35,7 +55,7 @@ def submit():
 
     # Abrir a planilha e selecionar a guia
     spreadsheet = client.open('Gastos')
-    worksheet = spreadsheet.worksheet('Nov')
+    worksheet = spreadsheet.worksheet(worksheetCorrespondente)
 
     
     with open('token.json', 'r') as file:
@@ -43,8 +63,9 @@ def submit():
     encodedPwd = hash_pass(pwdAutenticated['pwd'])
 
     if verify_pass(pwd, encodedPwd):
-        worksheet.append_row([float(valor), evento, dataString, pagamento])
-        return render_template('index.html', status='success')
+        worksheet.append_row([float(valor), evento, dataSerial, pagamento])
+        # return render_template('index.html', status='success')
+        return redirect('/main')
     else:
         return render_template('index.html', status='error')
     

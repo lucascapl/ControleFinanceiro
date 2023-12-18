@@ -1,5 +1,6 @@
 import hashlib, binascii, os
 import random as rdm
+from datetime import datetime
 def hash_pass( password ):
     """Hash a password for storing."""
     salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
@@ -19,3 +20,6 @@ def verify_pass(provided_password, stored_password):
                                   100000)
     pwdhash = binascii.hexlify(pwdhash).decode('ascii')
     return pwdhash == stored_password
+
+def serialData (data):
+    return (data - datetime(1899, 12, 30).date()).days
