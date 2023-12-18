@@ -64,8 +64,7 @@ def submit():
 
     if verify_pass(pwd, encodedPwd):
         worksheet.append_row([float(valor), evento, dataSerial, pagamento])
-        # return render_template('index.html', status='success')
-        return redirect('/main')
+        return render_template('index.html', status='success')
     else:
         return render_template('index.html', status='error')
     

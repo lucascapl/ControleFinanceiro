@@ -14,12 +14,4 @@ document.addEventListener('DOMContentLoaded', function() {
         orientation: 'bottom',
         autoclose: true
     });
-    var status = '{{ status }}';
-    console.log(status);
-    if (status === 'success') {
-        alert("Dados enviados com sucesso");
-    } else if (status === 'error') {
-        alert("Dados inválidos! Tente novamente");
-        window.location.href = "\main";
-    }
 });

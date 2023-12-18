@@ -59,6 +59,15 @@
             <input type="submit" value="Enviar">
         </div>
     </form>
-
+    <script>
+        var status = '{{ status }}';
+        if (status === 'success') {
+            alert("Dados enviados com sucesso");
+            window.location.href = "\main";
+        } else if (status === 'error') {
+            alert("Dados inválidos! Tente novamente");
+            window.location.href = "\main";
+        }
+    </script>
 </body>
 </html>
