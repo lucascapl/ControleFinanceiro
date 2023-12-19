@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from datetime import datetime
-from util import hash_pass, verify_pass, serialData
+from util import hash_pass, verify_pass, serialData, getLastCommitCode
 import json
 app = Flask(__name__)
 
@@ -32,13 +32,12 @@ def root():
 
 @app.route('/main')
 def index():
-    # commitCode = getLastCommitCode()
-    # if commitCode is not None:
-    #     print(f"Último commit: {commitCode}")
-    # else:
-    #     print("Não foi possível obter informações do último commit.")
-    # return render_template('index.html', status=None, commitVersion=commitCode)
-    return render_template('index.html', status=None)
+    commitCode = getLastCommitCode()
+    if commitCode is not None:
+        print(f"Último commit: {commitCode}")
+    else:
+        print("Não foi possível obter informações do último commit.")
+    return render_template('index.html', status=None, commitVersion=commitCode)
 
 @app.route('/submit', methods=['POST'])
 def submit():
