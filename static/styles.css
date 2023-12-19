@@ -26,12 +26,3 @@ body {
     display: block;
     margin-bottom: 5px;
 }
-.footerVersion {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    margin: 10px;
-    font-size: 10px;
-    color: black;
-    font-weight: bold;
-}
